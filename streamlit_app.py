@@ -41,7 +41,7 @@ client = OpenAI(api_key=openai_api_key)
 
 # Place the rest of your code for question and answer generation below
 # Example:
-st.title("📄 Security Quiz 🎈")
+st.title("📄 Security Quiz 🎈🎈")
 st.write("Read the Document given above and Answer the Questions. The answers are not graded—read the feedback for your improvement.")
 
 if st.button("Ask Question"):
