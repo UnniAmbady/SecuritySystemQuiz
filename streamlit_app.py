@@ -118,32 +118,28 @@ def Validate():
         
                 # Generate an answer using the OpenAI API.
                 
-    for chunk in client.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=messages,
-            temperature=0.6,
-            stream=True):
-        delta = chunk.choices[0].delta.content or ""
-        # append to screen
-        placeholder.write(delta, end="")  
-        # save for log
-        analysis_chunks.append(delta)
-    analysis_text = "".join(analysis_chunks)
-    """
+
+
     stream1 = client.chat.completions.create(
                     model='gpt-4o-mini',
                     messages=messages, 
                     temperature= 0.6,  # Added temperature parameter.
                     stream=True,
-                )"""
+                )
     st.write( f"**Question:** {sys_qn}\n " )
     st.write( f"**Modal Ans:** {sys_ans}\n " )
     st.write( f"**Your Answer:**\n {st_answer}\n " )
     #st.write_stream(stream1)
-    st.write_stream(analysis_text)
-    # Call log_and_commit function after the above Streamlit writes
+        # 2) Accumulate the chunks into one string
+    analysis_text = ""
+    for chunk in stream1:
+        delta = chunk.choices[0].delta.content or ""
+        st.write(delta, end="")      # your on-screen display
+        analysis_text += delta        # build up the full text
+    
+    # 3) Now send that full analysis_text into your logger
     log_and_commit(sys_qn, sys_ans, st_answer, analysis_text)
-    st.success("✅ Logged your Q &A  and analysis to Storage")
+    st.success("✅ Logged question, answers, and GPT analysis to GitHub.")
 
 ##############################################################################30 Nov
   
