@@ -189,8 +189,8 @@ else:
         log_file.write(log_entry)
 
     # Execute Git commands to commit and push the file
-    subprocess.run(["git", "add", "Activity_log.txt"])
-    subprocess.run(["git", "commit", "-m", f"Log updated at {timestamp} via Streamlit app"])
-    subprocess.run(["git", "push", "origin", "main"])
+    #subprocess.run(["git", "add", "Activity_log.txt"])
+    #subprocess.run(["git", "commit", "-m", f"Log updated at {timestamp} via Streamlit app"])
+    #subprocess.run(["git", "push", "origin", "main"])
 
 
