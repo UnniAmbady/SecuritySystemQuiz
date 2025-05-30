@@ -4,6 +4,7 @@
 import streamlit as st
 from openai import OpenAI
 from QnA_Utils import fetch_pdf_in_chunks
+from PyPDF2 import PdfReader
 #import re
 #import json
 # GitHub raw URL
@@ -26,18 +27,6 @@ st.title("📄 Security Systems Qns 🎈")
 st.write("Reand The PDF Document & ppt Slides before answering. "
     "Students need to answer at least 2 Questions.")
 
-"""
-# Create a checkbox with the label 'Agile Approach'
-if st.checkbox('Agile Approach'):
-    # Display a popup-like message
-    st.warning('This software is being developed using an Agile approach. \
-    \nDevelopment will proceed in stages. \
-    \nNext the answer to be graded in future versions.')
-hide_ans =0
-if st.checkbox('Hide Answer'):
-    hide_ans =1
-#Only used during development stage
-"""
 
 query = "Create a random Question with an Answer. Answer must be short."
 document = None  # Initially set to None to indicate no document is uploaded
