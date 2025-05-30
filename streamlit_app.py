@@ -27,14 +27,14 @@ st.write("Reand The PDF Document & ppt Slides before answering. "
     "Students need to answer at least 2 Questions.")
 
 """
-# Create a checkbox with the label "Agile Approach"
-if st.checkbox("Agile Approach"):
+# Create a checkbox with the label 'Agile Approach'
+if st.checkbox('Agile Approach'):
     # Display a popup-like message
-    st.warning("This software is being developed using an Agile approach. \
+    st.warning('This software is being developed using an Agile approach. \
     \nDevelopment will proceed in stages. \
-    \nNext the answer to be graded in future versions.")
+    \nNext the answer to be graded in future versions.')
 hide_ans =0
-if st.checkbox("Hide Answer"):
+if st.checkbox('Hide Answer'):
     hide_ans =1
 #Only used during development stage
 """
@@ -145,14 +145,6 @@ if not client:
 else:
     # Streamlit app layout
     st.title("Interactive Q&A Generator")
-    
-    # Supress the user upload a file via `st.file_uploader`.
-    # uploaded_file = st.file_uploader(
-    #   "Upload a document (.txt or .md)", type=("txt", "md")
-    # )
-    # Define global tuple
-    
-    ## Read from PDF
     pdf_data = fetch_pdf_in_chunks(GITHUB_RAW_URL)
 
     if pdf_data:
