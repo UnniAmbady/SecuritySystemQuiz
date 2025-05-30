@@ -23,7 +23,7 @@ st.title("📄 Security Systems Qns 🎈")
 st.write("Reand The PDF Document & ppt Slides before answering. "
     "Students need to answer at least 2 Questions.")
 
-
+"""
 # Create a checkbox with the label "Agile Approach"
 if st.checkbox("Agile Approach"):
     # Display a popup-like message
@@ -33,7 +33,8 @@ if st.checkbox("Agile Approach"):
 hide_ans =0
 if st.checkbox("Hide Answer"):
     hide_ans =1
-
+#Only used during development stage
+"""
 
 query = "Create a random Question with an Answer. Answer must be short."
 document = None  # Initially set to None to indicate no document is uploaded
@@ -141,16 +142,25 @@ if not client:
 else:
     # Streamlit app layout
     st.title("Interactive Q&A Generator")
-    # Add a button that calls the AskQn() function
-
-    # OpenAI client already created.
-    # client = OpenAI(api_key=openai_api_key)
-
-    # Let the user upload a file via `st.file_uploader`.
+"""
+    # Supress the user upload a file via `st.file_uploader`.
     uploaded_file = st.file_uploader(
         "Upload a document (.txt or .md)", type=("txt", "md")
     )
     # Define global tuple
+ """
+## Read from PDF
+pdf_data = fetch_pdf_in_chunks(GITHUB_RAW_URL)
+
+if pdf_data:
+    reader = PdfReader(pdf_data)
+    document = ""
+    for page in reader.pages:
+        document += page.extract_text() or ""
+else:
+    st.error("Failed to load Security_Systems_Notes.pdf from GitHub.")
+    st.stop()
+uploaded_file= document #used back old variable name
 
     if uploaded_file:             
         if st.button("Ask Question"):         
