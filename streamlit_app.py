@@ -8,7 +8,7 @@ from PyPDF2 import PdfReader
 import subprocess
 from datetime import datetime
 import pytz
-from github import Github
+from github import Github, GithubException
 import base64
 #import re
 #import json
