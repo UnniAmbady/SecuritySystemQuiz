@@ -132,19 +132,25 @@ def Validate():
     return
 
 
-def log_and_commit(sys_qn: str, sys_ans: str, st_ans: str, stream):
+
+def log_and_commit(sys_qn: str, sys_ans: str, st_ans: str, writer):
     """
-    Append a new entry to Activity_log.txt in the repo and ensure
-    the GitHub Actions workflow is present to process it.
+    sys_qn, sys_ans, st_ans = the question, the model's answer, and the student's answer
+    writer = a Streamlit placeholder for messages (e.g. stream1 = st.empty())
     """
-    # — Authenticate & get repo —   
-    token = st.secrets["github"]["token"]
-    gh    = Github(token)
-    repo = gh.get_repo("UnniAmbady/SecuritySystemQuiz")
- 
-    # — Build timestamped log entry —
-    ts = datetime.now(pytz.timezone("Asia/Singapore")) \
-             .strftime("%Y-%m-%d %H:%M:%S")
+    # — Authenticate using your Streamlit secret (not the writer object!) —
+    github_token = st.secrets["github"]["token"]
+    gh           = Github(github_token)
+    repo         = gh.get_repo("UnniAmbady/SecuritySystemQuiz")
+    repo.update_file(
+      path="Activity_log.txt",
+      message="…",
+      content=new_body,
+      sha=existing.sha,      # ← here’s your must-have SHA
+      branch="main",
+    )
+    # — Prepare the log entry —
+    ts = datetime.now(pytz.timezone("Asia/Singapore")).strftime("%Y-%m-%d %H:%M:%S")
     entry = (
         f"Timestamp:    {ts}\n"
         f"Question:     {sys_qn}\n"
@@ -153,27 +159,30 @@ def log_and_commit(sys_qn: str, sys_ans: str, st_ans: str, stream):
         + "-"*40 + "\n"
     )
 
-    # — 1) Update or create Activity_log.txt —
+    # — 1) Update / create the Activity_log.txt —
     log_path = "Activity_log.txt"
     try:
-        existing = repo.get_contents(log_path, ref="main")
-        updated  = existing.decoded_content.decode() + entry
+        existing = repo.get_contents("Activity_log.txt", ref="main")
+        #existing = repo.get_contents(log_path, ref="main")
+        new_body = existing.decoded_content.decode() + entry
         repo.update_file(
             path=log_path,
             message=f"Update log at {ts}",
-            content=updated,
+            content=new_body,
             sha=existing.sha,
-            branch="main"
+            branch="main",
         )
-        stream.write("✅ Activity_log.txt updated on GitHub.")
-    except Exception:
+        writer.write("✅ Activity_log.txt updated.")
+    except:
         repo.create_file(
             path=log_path,
             message=f"Create log at {ts}",
             content=entry,
-            branch="main"
+            branch="main",
         )
-        stream.write("✅ Activity_log.txt created on GitHub.")
+        writer.write("✅ Activity_log.txt created.")
+        
+        
 
     # — 2) Ensure Actions workflow exists under .github/workflows/ —
     wf_path = ".github/workflows/log-processor.yml"
