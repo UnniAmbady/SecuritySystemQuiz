@@ -103,6 +103,7 @@ def Validate():
     "content": f"[Ignore Grammar and Spelling errors]. \
                 [Respond in bullet Form as brief as possible] \
                  [Compare the and Comment on any Logical Errors] \
+                 [Be very lenient & dont flash too many errors. AWARD a higher grade, cap at 90%] \
                  [Based on the logical correctness, **AWARD** a Grade  0 to 100% scale] \
                  [Correct Answer {sys_ans}] \n\n---\n\n [Student_Ans{st_answer} ]"
                  }]            
