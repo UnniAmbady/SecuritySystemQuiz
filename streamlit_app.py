@@ -6,6 +6,9 @@ from openai import OpenAI
 from QnA_Utils import fetch_pdf_in_chunks
 #import re
 #import json
+# GitHub raw URL
+GITHUB_RAW_URL = "https://raw.githubusercontent.com/UnniAmbady/SecuritySystemQuiz/main/Security_Systems_Notes.pdf"
+
 
 # deifine global variables
 if "sys_qn" not in st.session_state:
@@ -142,13 +145,13 @@ if not client:
 else:
     # Streamlit app layout
     st.title("Interactive Q&A Generator")
-    """
+    
     # Supress the user upload a file via `st.file_uploader`.
-    uploaded_file = st.file_uploader(
-        "Upload a document (.txt or .md)", type=("txt", "md")
-    )
+    # uploaded_file = st.file_uploader(
+    #   "Upload a document (.txt or .md)", type=("txt", "md")
+    # )
     # Define global tuple
-    """
+    
     ## Read from PDF
     pdf_data = fetch_pdf_in_chunks(GITHUB_RAW_URL)
 
@@ -160,6 +163,7 @@ else:
     else:
         st.error("Failed to load Security_Systems_Notes.pdf from GitHub.")
         st.stop()
+        
     uploaded_file= document #used back old variable name
 
     if uploaded_file:             
