@@ -5,6 +5,9 @@ import streamlit as st
 from openai import OpenAI
 from QnA_Utils import fetch_pdf_in_chunks
 from PyPDF2 import PdfReader
+import subprocess
+from datetime import datetime
+import pytz
 #import re
 #import json
 # GitHub raw URL
@@ -109,7 +112,7 @@ def Validate():
                  }]            
         
                 # Generate an answer using the OpenAI API.
-    stream = client.chat.completions.create(
+    stream1 = client.chat.completions.create(
                     model="gpt-4o-mini",
                     messages=messages, 
                     temperature= 0.6,  # Added temperature parameter.
@@ -118,7 +121,9 @@ def Validate():
     st.write( f"**Question:** {sys_qn}\n " )
     st.write( f"**Modal Ans:** {sys_ans}\n " )
     st.write( f"**Your Answer:**\n {st_answer}\n " )
-    st.write_stream(stream)
+    st.write_stream(stream1)
+    # Call log_and_commit function after the above Streamlit writes
+    log_and_commit(sys_qn, sys_ans, st_answer, stream1)
 
 ##############################################################################30 Nov
   
@@ -165,4 +170,38 @@ else:
     if not uploaded_file:
         st.write("Upload a file before you can ask a Question.")
         
- 
+ def log_and_commit(sys_qn, sys_ans, st_ans, stream):
+    # Set timezone to Singapore
+    singapore_tz = pytz.timezone('Asia/Singapore')
+    timestamp = datetime.now(singapore_tz).strftime("%Y-%m-%d %H:%M:%S")
+
+    log_entry = (
+        f"Timestamp (SGT): {timestamp}\n"
+        f"Question: {sys_qn}\n"
+        f"Modal Answer: {sys_ans}\n"
+        f"Student Answer: {st_ans}\n"
+        f"Stream Response: {stream}\n"
+        f"{'-'*50}\n"
+    )
+
+    # Append to log file
+    with open("Activity_log.txt", "a") as log_file:
+        log_file.write(log_entry)
+
+    # Execute Git commands to commit and push the file
+    subprocess.run(["git", "add", "Activity_log.txt"])
+    subprocess.run(["git", "commit", "-m", f"Log updated at {timestamp} via Streamlit app"])
+    subprocess.run(["git", "push", "origin", "main"])
+
+# Example call after your existing Streamlit code
+stream = client.chat.completions.create(
+                model="gpt-4o-mini",
+                messages=messages,
+                temperature=0.6,
+                stream=True,
+            )
+
+st.write(f"**Question:** {sys_qn}\n ")
+st.write(f"**Modal Ans:** {sys_ans}\n ")
+st.write(f"**Your Answer:**\n {st_answer}\n ")
+st.write_stream(stream)
