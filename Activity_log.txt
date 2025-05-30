@@ -17,3 +17,10 @@ Question:      What is the primary function of access control systems in securit
 Modal Answer:  Access control systems regulate who can enter specific areas and at what times, using credentials like ID badges or biometrics for authentication.
 Student Ans:  To allow access to Authorised persons only and disallow others
 ----------------------------------------
+Timestamp:    2025-05-30 23:17:48
+Question:      What is the purpose of access control systems in security systems for buildings?
+
+
+Modal Answer:  Access control systems regulate who can enter specific areas and at what times, ensuring only authorized personnel gain access.
+Student Ans:  Access control is for controlling the admission of people to the building in an ordered manner
+----------------------------------------
