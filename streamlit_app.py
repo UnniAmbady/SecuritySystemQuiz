@@ -104,6 +104,9 @@ def Validate():
     #to do 28 Nov 2024
     st.write("Thanks: The results will be sent to you at a later date.")
 ###########################################################################30 Nov
+    placeholder = st.empty()          # a DeltaGenerator to show the text as it arrives
+    analysis_chunks = []
+    
     messages =  [{"role": "user",
     "content": f"[Ignore Grammar and Spelling errors]. \
                 [Respond in bullet Form as brief as possible] \
@@ -114,18 +117,33 @@ def Validate():
                  }]            
         
                 # Generate an answer using the OpenAI API.
+                
+    for chunk in client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=messages,
+            temperature=0.6,
+            stream=True):
+        delta = chunk.choices[0].delta.content or ""
+        # append to screen
+        placeholder.write(delta, end="")  
+        # save for log
+        analysis_chunks.append(delta)
+    analysis_text = "".join(analysis_chunks)
+    """
     stream1 = client.chat.completions.create(
-                    model="gpt-4o-mini",
+                    model='gpt-4o-mini',
                     messages=messages, 
                     temperature= 0.6,  # Added temperature parameter.
                     stream=True,
-                )
+                )"""
     st.write( f"**Question:** {sys_qn}\n " )
     st.write( f"**Modal Ans:** {sys_ans}\n " )
     st.write( f"**Your Answer:**\n {st_answer}\n " )
-    st.write_stream(stream1)
+    #st.write_stream(stream1)
+    st.write_stream(analysis_text)
     # Call log_and_commit function after the above Streamlit writes
-    log_and_commit(sys_qn, sys_ans, st_answer, stream1)
+    log_and_commit(sys_qn, sys_ans, st_answer, analysis_text)
+    st.success("✅ Logged your Q &A  and analysis to Storage")
 
 ##############################################################################30 Nov
   
