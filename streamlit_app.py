@@ -142,13 +142,13 @@ if not client:
 else:
     # Streamlit app layout
     st.title("Interactive Q&A Generator")
-"""
+    """
     # Supress the user upload a file via `st.file_uploader`.
     uploaded_file = st.file_uploader(
         "Upload a document (.txt or .md)", type=("txt", "md")
     )
     # Define global tuple
- """
+    """
     ## Read from PDF
     pdf_data = fetch_pdf_in_chunks(GITHUB_RAW_URL)
 
