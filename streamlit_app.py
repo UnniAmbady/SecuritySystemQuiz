@@ -115,6 +115,7 @@ def Validate():
                     stream=True,
                 )
     st.write( f"**Question:** {sys_qn}\n " )
+    st.write( f"**Modal Ans:** {sys_ans}\n " )
     st.write( f"**Your Answer:**\n {st_answer}\n " )
     st.write_stream(stream)
 
