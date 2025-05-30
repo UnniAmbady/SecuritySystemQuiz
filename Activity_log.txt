@@ -11,3 +11,9 @@ Question:     What role do electronic detection systems play in building securit
 Modal Answer: Electronic detection systems provide continuous monitoring and rapid alerts for unauthorized access, enhancing the effectiveness of physical barriers.
 Student Ans:  Electronic detection system will efficiently detect any intrution and alarm
 ----------------------------------------
+Timestamp:    2025-05-30 22:43:27
+Question:      What is the primary function of access control systems in security?  
+
+Modal Answer:  Access control systems regulate who can enter specific areas and at what times, using credentials like ID badges or biometrics for authentication.
+Student Ans:  To allow access to Authorised persons only and disallow others
+----------------------------------------
