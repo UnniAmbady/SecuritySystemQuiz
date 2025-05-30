@@ -1,2 +1,8 @@
 Student answer are logged here
 
+Timestamp:    2025-05-30 21:55:07
+Question:      What are two types of sensors used in Intruder Detection Systems?  
+
+Modal Answer:  Motion sensors and glass break detectors.
+Student Ans:  PIR and Microwave sensor
+----------------------------------------
