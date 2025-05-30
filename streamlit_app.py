@@ -178,11 +178,7 @@ else:
             #save_global(sys_qn, sys_ans, st_answer)              
             Validate()     
     
-    # Continue on main trunk        
-    #st.write("Q", st.session_state.sys_qn)
-    #st.write("A", st.session_state.sys_ans)
-    #st.write("S", st.session_state.st_answer)
-    
+  
     if not uploaded_file:
         st.write("Upload a file before you can ask a Question.")
     if uploaded_file:
