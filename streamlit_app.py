@@ -129,7 +129,7 @@ def Validate():
   
     return
 
- def log_and_commit(sys_qn, sys_ans, st_ans, stream):
+def log_and_commit(sys_qn, sys_ans, st_ans, stream):
     # Set timezone to Singapore
     singapore_tz = pytz.timezone('Asia/Singapore')
     timestamp = datetime.now(singapore_tz).strftime("%Y-%m-%d %H:%M:%S")
@@ -148,9 +148,9 @@ def Validate():
         log_file.write(log_entry)
 
     # Execute Git commands to commit and push the file
-    #subprocess.run(["git", "add", "Activity_log.txt"])
-    #subprocess.run(["git", "commit", "-m", f"Log updated at {timestamp} via Streamlit app"])
-    #subprocess.run(["git", "push", "origin", "main"])
+    subprocess.run(["git", "add", "Activity_log.txt"])
+    subprocess.run(["git", "commit", "-m", f"Log updated at {timestamp} via Streamlit app"])
+    subprocess.run(["git", "push", "origin", "main"])
     return
 
 ### __mail__ body Starts from here
