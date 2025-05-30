@@ -193,15 +193,4 @@ else:
     subprocess.run(["git", "commit", "-m", f"Log updated at {timestamp} via Streamlit app"])
     subprocess.run(["git", "push", "origin", "main"])
 
-# Example call after your existing Streamlit code
-stream = client.chat.completions.create(
-                model="gpt-4o-mini",
-                messages=messages,
-                temperature=0.6,
-                stream=True,
-            )
 
-st.write(f"**Question:** {sys_qn}\n ")
-st.write(f"**Modal Ans:** {sys_ans}\n ")
-st.write(f"**Your Answer:**\n {st_answer}\n ")
-st.write_stream(stream)
