@@ -149,18 +149,18 @@ else:
     )
     # Define global tuple
  """
-## Read from PDF
-pdf_data = fetch_pdf_in_chunks(GITHUB_RAW_URL)
+    ## Read from PDF
+    pdf_data = fetch_pdf_in_chunks(GITHUB_RAW_URL)
 
-if pdf_data:
-    reader = PdfReader(pdf_data)
-    document = ""
-    for page in reader.pages:
-        document += page.extract_text() or ""
-else:
-    st.error("Failed to load Security_Systems_Notes.pdf from GitHub.")
-    st.stop()
-uploaded_file= document #used back old variable name
+    if pdf_data:
+        reader = PdfReader(pdf_data)
+        document = ""
+        for page in reader.pages:
+            document += page.extract_text() or ""
+    else:
+        st.error("Failed to load Security_Systems_Notes.pdf from GitHub.")
+        st.stop()
+    uploaded_file= document #used back old variable name
 
     if uploaded_file:             
         if st.button("Ask Question"):         
