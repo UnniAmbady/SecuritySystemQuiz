@@ -86,8 +86,8 @@ def AskQn():
     generated_content = stream.choices[0].message.content
     sys_qn, sys_ans = extract_question_and_answer(generated_content)
     st.write(sys_qn)
-    if(not hide_ans):
-        st.write(sys_ans)  
+    # if(not hide_ans):
+        # st.write(sys_ans)  
     return sys_qn, sys_ans
 #function ended
 
