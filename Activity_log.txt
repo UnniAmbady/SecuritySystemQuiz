@@ -6,3 +6,8 @@ Question:      What are two types of sensors used in Intruder Detection Systems?
 Modal Answer:  Motion sensors and glass break detectors.
 Student Ans:  PIR and Microwave sensor
 ----------------------------------------
+Timestamp:    2025-05-30 22:30:08
+Question:     What role do electronic detection systems play in building security?
+Modal Answer: Electronic detection systems provide continuous monitoring and rapid alerts for unauthorized access, enhancing the effectiveness of physical barriers.
+Student Ans:  Electronic detection system will efficiently detect any intrution and alarm
+----------------------------------------
