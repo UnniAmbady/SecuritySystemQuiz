@@ -1,1 +1,22 @@
 #YAML File for Actions Tab on Github
+wf_path = ".github/workflows/log-processor.yml"
+wf_yaml = """\
+name: Process Activity Log
+
+on:
+  push:
+    paths:
+      - 'Activity_log.txt'
+
+jobs:
+  parse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: echo "::group::Log content"; cat Activity_log.txt; echo "::endgroup::"
+"""
+try:
+    wf_file = repo.get_contents(wf_path, ref="main")
+    repo.update_file(wf_path, "Update workflow", wf_yaml, wf_file.sha, branch="main")
+except:
+    repo.create_file(wf_path, "Add log-processor workflow", wf_yaml, branch="main")
