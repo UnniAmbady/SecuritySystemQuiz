@@ -29,7 +29,7 @@ if "st_answered" not in st.session_state:
 
 # Show title and description.
 st.title("📄 Security Systems Qns 🎈")
-st.write("Reand The PDF Document & ppt Slides before answering. "
+st.write("Read your lecture notes & refer to the PDF before answering. "
     "Students need to answer at least 2 Questions.")
 
 
