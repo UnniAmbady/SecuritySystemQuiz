@@ -2,6 +2,7 @@ streamlit
 openai
 PyPDF2
 pytz
+PyGithub 
 # subprocess
 # requests
 # io
