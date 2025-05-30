@@ -137,10 +137,11 @@ def log_and_commit(sys_qn: str, sys_ans: str, st_ans: str, stream):
     Append a new entry to Activity_log.txt in the repo and ensure
     the GitHub Actions workflow is present to process it.
     """
-    # — Authenticate & get repo —
-    gh   = Github(stream.secrets["github"]["token"])
+    # — Authenticate & get repo —   
+    token = st.secrets["github"]["token"]
+    gh    = Github(token)
     repo = gh.get_repo("UnniAmbady/SecuritySystemQuiz")
-
+ 
     # — Build timestamped log entry —
     ts = datetime.now(pytz.timezone("Asia/Singapore")) \
              .strftime("%Y-%m-%d %H:%M:%S")
