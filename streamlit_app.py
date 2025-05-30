@@ -129,6 +129,29 @@ def Validate():
   
     return
 
+ def log_and_commit(sys_qn, sys_ans, st_ans, stream):
+    # Set timezone to Singapore
+    singapore_tz = pytz.timezone('Asia/Singapore')
+    timestamp = datetime.now(singapore_tz).strftime("%Y-%m-%d %H:%M:%S")
+
+    log_entry = (
+        f"Timestamp (SGT): {timestamp}\n"
+        f"Question: {sys_qn}\n"
+        f"Modal Answer: {sys_ans}\n"
+        f"Student Answer: {st_ans}\n"
+        f"Stream Response: {stream}\n"
+        f"{'-'*50}\n"
+    )
+
+    # Append to log file
+    with open("Activity_log.txt", "a") as log_file:
+        log_file.write(log_entry)
+
+    # Execute Git commands to commit and push the file
+    #subprocess.run(["git", "add", "Activity_log.txt"])
+    #subprocess.run(["git", "commit", "-m", f"Log updated at {timestamp} via Streamlit app"])
+    #subprocess.run(["git", "push", "origin", "main"])
+    return
 
 ### __mail__ body Starts from here
 
@@ -170,27 +193,6 @@ else:
     if not uploaded_file:
         st.write("Upload a file before you can ask a Question.")
         
- def log_and_commit(sys_qn, sys_ans, st_ans, stream):
-    # Set timezone to Singapore
-    singapore_tz = pytz.timezone('Asia/Singapore')
-    timestamp = datetime.now(singapore_tz).strftime("%Y-%m-%d %H:%M:%S")
 
-    log_entry = (
-        f"Timestamp (SGT): {timestamp}\n"
-        f"Question: {sys_qn}\n"
-        f"Modal Answer: {sys_ans}\n"
-        f"Student Answer: {st_ans}\n"
-        f"Stream Response: {stream}\n"
-        f"{'-'*50}\n"
-    )
-
-    # Append to log file
-    with open("Activity_log.txt", "a") as log_file:
-        log_file.write(log_entry)
-
-    # Execute Git commands to commit and push the file
-    #subprocess.run(["git", "add", "Activity_log.txt"])
-    #subprocess.run(["git", "commit", "-m", f"Log updated at {timestamp} via Streamlit app"])
-    #subprocess.run(["git", "push", "origin", "main"])
 
 
