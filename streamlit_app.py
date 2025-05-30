@@ -8,6 +8,8 @@ from PyPDF2 import PdfReader
 import subprocess
 from datetime import datetime
 import pytz
+from github import Github
+import base64
 #import re
 #import json
 # GitHub raw URL
@@ -100,7 +102,7 @@ def Validate():
     sys_ans = st.session_state.sys_ans
     st_answer = st.session_state.st_answer
     #to do 28 Nov 2024
-    st.write("Answer will be processed in the next version")
+    st.write("Thanks: The results will be sent to you at a later date.")
 ###########################################################################30 Nov
     messages =  [{"role": "user",
     "content": f"[Ignore Grammar and Spelling errors]. \
@@ -129,28 +131,88 @@ def Validate():
   
     return
 
-def log_and_commit(sys_qn, sys_ans, st_ans, stream):
-    # Set timezone to Singapore
-    singapore_tz = pytz.timezone('Asia/Singapore')
-    timestamp = datetime.now(singapore_tz).strftime("%Y-%m-%d %H:%M:%S")
 
-    log_entry = (
-        f"Timestamp (SGT): {timestamp}\n"
-        f"Question: {sys_qn}\n"
+def log_and_commit(sys_qn: str, sys_ans: str, st_ans: str, stream):
+    """
+    Append a new entry to Activity_log.txt in the repo and ensure
+    the GitHub Actions workflow is present to process it.
+    """
+    # — Authenticate & get repo —
+    gh   = Github(stream.secrets["github"]["token"])
+    repo = gh.get_repo("UnniAmbady/SecuritySystemQuiz")
+
+    # — Build timestamped log entry —
+    ts = datetime.now(pytz.timezone("Asia/Singapore")) \
+             .strftime("%Y-%m-%d %H:%M:%S")
+    entry = (
+        f"Timestamp:    {ts}\n"
+        f"Question:     {sys_qn}\n"
         f"Modal Answer: {sys_ans}\n"
-        f"Student Answer: {st_ans}\n"
-        f"Stream Response: {stream}\n"
-        f"{'-'*50}\n"
+        f"Student Ans:  {st_ans}\n"
+        + "-"*40 + "\n"
     )
 
-    # Append to log file
-    with open("Activity_log.txt", "a") as log_file:
-        log_file.write(log_entry)
+    # — 1) Update or create Activity_log.txt —
+    log_path = "Activity_log.txt"
+    try:
+        existing = repo.get_contents(log_path, ref="main")
+        updated  = existing.decoded_content.decode() + entry
+        repo.update_file(
+            path=log_path,
+            message=f"Update log at {ts}",
+            content=updated,
+            sha=existing.sha,
+            branch="main"
+        )
+        stream.write("✅ Activity_log.txt updated on GitHub.")
+    except Exception:
+        repo.create_file(
+            path=log_path,
+            message=f"Create log at {ts}",
+            content=entry,
+            branch="main"
+        )
+        stream.write("✅ Activity_log.txt created on GitHub.")
 
-    # Execute Git commands to commit and push the file
-    subprocess.run(["git", "add", "Activity_log.txt"])
-    subprocess.run(["git", "commit", "-m", f"Log updated at {timestamp} via Streamlit app"])
-    subprocess.run(["git", "push", "origin", "main"])
+    # — 2) Ensure Actions workflow exists under .github/workflows/ —
+    wf_path = ".github/workflows/log-processor.yml"
+    wf_yaml = """\
+    name: Process Activity Log
+
+    on:
+      push:
+        paths:
+          - 'Activity_log.txt'
+
+    jobs:
+      parse:
+        runs-on: ubuntu-latest
+        steps:
+          - uses: actions/checkout@v3
+          - run: |
+              echo "::group::Log content"
+              cat Activity_log.txt
+              echo "::endgroup::"
+    """
+    try:
+        wf_file = repo.get_contents(wf_path, ref="main")
+        repo.update_file(
+            path=wf_path,
+            message=f"Update workflow at {ts}",
+            content=wf_yaml,
+            sha=wf_file.sha,
+            branch="main"
+        )
+        stream.write("✅ Workflow updated on GitHub.")
+    except Exception:
+        repo.create_file(
+            path=wf_path,
+            message=f"Add log-processor workflow at {ts}",
+            content=wf_yaml,
+            branch="main"
+        )
+        stream.write("✅ Workflow created on GitHub.")
+
     return
 
 ### __mail__ body Starts from here
