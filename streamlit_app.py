@@ -133,24 +133,21 @@ def Validate():
 
 
 
+
 def log_and_commit(sys_qn: str, sys_ans: str, st_ans: str, writer):
     """
-    sys_qn, sys_ans, st_ans = the question, the model's answer, and the student's answer
-    writer = a Streamlit placeholder for messages (e.g. stream1 = st.empty())
+    sys_qn, sys_ans, st_ans = question, model’s answer, student’s answer
+    writer = a Streamlit placeholder (e.g. stream1 = st.empty())
     """
-    # — Authenticate using your Streamlit secret (not the writer object!) —
+
+    # 0) Authenticate
     github_token = st.secrets["github"]["token"]
     gh           = Github(github_token)
     repo         = gh.get_repo("UnniAmbady/SecuritySystemQuiz")
-    repo.update_file(
-      path="Activity_log.txt",
-      message="…",
-      content=new_body,
-      sha=existing.sha,      # ← here’s your must-have SHA
-      branch="main",
-    )
-    # — Prepare the log entry —
-    ts = datetime.now(pytz.timezone("Asia/Singapore")).strftime("%Y-%m-%d %H:%M:%S")
+
+    # 1) Build timestamped entry
+    ts = datetime.now(pytz.timezone("Asia/Singapore")) \
+             .strftime("%Y-%m-%d %H:%M:%S")
     entry = (
         f"Timestamp:    {ts}\n"
         f"Question:     {sys_qn}\n"
@@ -159,32 +156,32 @@ def log_and_commit(sys_qn: str, sys_ans: str, st_ans: str, writer):
         + "-"*40 + "\n"
     )
 
-    # — 1) Update / create the Activity_log.txt —
+    # 2) Update or create Activity_log.txt
     log_path = "Activity_log.txt"
     try:
-        existing = repo.get_contents("Activity_log.txt", ref="main")
-        #existing = repo.get_contents(log_path, ref="main")
+        existing = repo.get_contents(log_path, ref="main")
         new_body = existing.decoded_content.decode() + entry
         repo.update_file(
             path=log_path,
             message=f"Update log at {ts}",
             content=new_body,
             sha=existing.sha,
-            branch="main",
+            branch="main"
         )
-        writer.write("✅ Activity_log.txt updated.")
-    except:
-        repo.create_file(
-            path=log_path,
-            message=f"Create log at {ts}",
-            content=entry,
-            branch="main",
-        )
-        writer.write("✅ Activity_log.txt created.")
-        
-        
+        writer.write("✅ Activity_log.txt updated on GitHub.")
+    except GithubException as e:
+        if e.status == 404:
+            repo.create_file(
+                path=log_path,
+                message=f"Create log at {ts}",
+                content=entry,
+                branch="main"
+            )
+            writer.write("✅ Activity_log.txt created on GitHub.")
+        else:
+            raise   # re-raise any other errors
 
-    # — 2) Ensure Actions workflow exists under .github/workflows/ —
+    # 3) (Optional) ensure the workflow YAML exists
     wf_path = ".github/workflows/log-processor.yml"
     wf_yaml = """\
     name: Process Activity Log
@@ -199,8 +196,9 @@ def log_and_commit(sys_qn: str, sys_ans: str, st_ans: str, writer):
         runs-on: ubuntu-latest
         steps:
           - uses: actions/checkout@v3
-          - run: |
-              echo "::group::Log content"
+          - name: Display log
+            run: |
+              echo "::group::Activity Log"
               cat Activity_log.txt
               echo "::endgroup::"
     """
@@ -213,15 +211,18 @@ def log_and_commit(sys_qn: str, sys_ans: str, st_ans: str, writer):
             sha=wf_file.sha,
             branch="main"
         )
-        stream.write("✅ Workflow updated on GitHub.")
-    except Exception:
-        repo.create_file(
-            path=wf_path,
-            message=f"Add log-processor workflow at {ts}",
-            content=wf_yaml,
-            branch="main"
-        )
-        stream.write("✅ Workflow created on GitHub.")
+        writer.write("✅ Workflow updated on GitHub.")
+    except GithubException as e:
+        if e.status == 404:
+            repo.create_file(
+                path=wf_path,
+                message=f"Add log-processor workflow at {ts}",
+                content=wf_yaml,
+                branch="main"
+            )
+            writer.write("✅ Workflow created on GitHub.")
+        else:
+            raise
 
     return
 
