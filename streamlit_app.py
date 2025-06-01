@@ -181,7 +181,7 @@ def log_and_commit(sys_qn: str, sys_ans: str, st_ans: str, analysis_text: str):
             sha=existing.sha,
             branch="main"
         )
-        st.success("✅ Activity_log.txt updated on GitHub.")
+        st.success("✅ Responce recorded.")
     except GithubException as e:
         if e.status == 404:
             repo.create_file(
@@ -190,58 +190,14 @@ def log_and_commit(sys_qn: str, sys_ans: str, st_ans: str, analysis_text: str):
                 content=entry,
                 branch="main"
             )
-            st.success("✅ Activity_log.txt created on GitHub.")
+            st.success("✅ Activity_log.txt created")
         else:
             raise
-
-    #return
 
     # 3) (Optional) ensure the workflow YAML exists
-    wf_path = ".github/workflows/log-processor.yml"
-    wf_yaml = """\
-    name: Process Activity Log
-
-    on:
-      push:
-        paths:
-          - 'Activity_log.txt'
-
-    jobs:
-      parse:
-        runs-on: ubuntu-latest
-        steps:
-          - uses: actions/checkout@v3
-          - name: Display log
-            run: |
-              echo "::group::Activity Log"
-              cat Activity_log.txt
-              echo "::endgroup::"
-    """
-    try:
-        wf_file = repo.get_contents(wf_path, ref="main")
-        repo.update_file(
-            path=wf_path,
-            message=f"Update workflow at {ts}",
-            content=wf_yaml,
-            sha=wf_file.sha,
-            branch="main"
-        )
-        #writer.write("✅ Workflow updated on GitHub.")
-        st.success("✅ Workflow updated.")
-    except GithubException as e:
-        if e.status == 404:
-            repo.create_file(
-                path=wf_path,
-                message=f"Add log-processor workflow at {ts}",
-                content=wf_yaml,
-                branch="main"
-            )
-            #writer.write("✅ Workflow created on GitHub.")
-            st.success("✅ Workflow updated.")
-        else:
-            raise
-
+    #YAML already created and hence code removed
     return
+
 def analyse_n_feedback(stream1):
     """
     Extracts 'Right:', 'Improve:', and 'Score:' from stream1's response.
