@@ -240,6 +240,28 @@ def log_and_commit(sys_qn: str, sys_ans: str, st_ans: str, analysis_text: str):
             raise
 
     return
+def analyse_n_feedback(stream1):
+    """
+    Extracts 'Right:', 'Improve:', and 'Score:' from stream1's response.
+    
+    Parameters:
+        stream1: ChatGPT response object (stream=False).
+        
+    Returns:
+        tuple: (right_feedback, improve_feedback, score_feedback)
+    """
+    try:
+        generated_content = stream1.choices[0].message.content.strip()
+
+        # Extract sections
+        right_part = generated_content.split("Right:", 1)[-1].split("Improve:", 1)[0].strip()
+        improve_part = generated_content.split("Improve:", 1)[-1].split("Score:", 1)[0].strip()
+        score_part = generated_content.split("Score:", 1)[-1].strip()
+
+        return right_part, improve_part, score_part
+    except Exception as e:
+        raise ValueError(f"Error parsing feedback: {e}")
+    return
 
 ### __mail__ body Starts from here
 
