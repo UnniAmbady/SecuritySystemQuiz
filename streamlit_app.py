@@ -226,7 +226,8 @@ def log_and_commit(sys_qn: str, sys_ans: str, st_ans: str, analysis_text: str):
             sha=wf_file.sha,
             branch="main"
         )
-        writer.write("✅ Workflow updated on GitHub.")
+        #writer.write("✅ Workflow updated on GitHub.")
+        st.success("✅ Workflow updated.")
     except GithubException as e:
         if e.status == 404:
             repo.create_file(
@@ -235,7 +236,8 @@ def log_and_commit(sys_qn: str, sys_ans: str, st_ans: str, analysis_text: str):
                 content=wf_yaml,
                 branch="main"
             )
-            writer.write("✅ Workflow created on GitHub.")
+            #writer.write("✅ Workflow created on GitHub.")
+            st.success("✅ Workflow updated.")
         else:
             raise
 
