@@ -26,3 +26,15 @@ Improve on: The answer does not address the question about encrypted RF or LTE l
 Score: 40%
 
 ------------------------------------------------------------
+Timestamp:    2025-06-01 15:51:56
+Question:      What is the primary function of motion sensors in electronic detection systems?  
+
+Modal Answer:  Motion sensors provide continuous monitoring and rapid alerts for unauthorized movement around fences and building perimeters.
+Student Ans:  To  detection movement. Especially to sence there are people in a room or not.
+
+GPT Feedback:
+Right points: Motion sensors detect movement.
+Improve on: "To detection movement" should be "To detect movement." "Especially to sence there are people in a room or not" should be "Especially to sense if there are people in a room."
+Score: 75%
+
+------------------------------------------------------------
