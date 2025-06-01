@@ -50,3 +50,15 @@ Improve on: "To control access" is vague. Needs more detail. "Intruder is to be 
 Score: 80%
 
 ------------------------------------------------------------
+Timestamp:    2025-06-01 23:06:17
+Question:      What are some advanced technologies used in access control systems?  
+
+Modal Answer:  Advanced technologies include biometric systems like fingerprint and facial recognition, proximity cards, and smart cards with microprocessors.
+Student Ans:  Robotics, Drones and AI technologies 
+
+GPT Feedback:
+Right points: None of the student's answer aligns with the correct answer.
+Improve on: The answer should include specific advanced technologies like biometric systems, fingerprint recognition, and smart cards.
+Score: 60%
+
+------------------------------------------------------------
