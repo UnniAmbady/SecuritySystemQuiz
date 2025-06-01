@@ -67,3 +67,16 @@ Improve on: "sounds locally and send signal" should be "sounds locally and sends
 Score: 85%
 
 ------------------------------------------------------------
+Timestamp:    2025-06-01 14:20:25
+Question:      What are the main components of an Intruder Detection System (IDS)?
+
+
+Modal Answer:  The main components of an IDS are detectors, communication channels, and control equipment.
+Student Ans:  Controller, Electronic Sensors and Actuators including the required Cabelling
+
+GPT Feedback:
+Right points: None.
+Improve on: The answer does not mention detectors, communication channels, and control equipment. It incorrectly lists "Controller" and "Electronic Sensors and Actuators" without relating them to the main components of an IDS. Correct components are essential for a complete answer.
+Score: 60%
+
+------------------------------------------------------------
