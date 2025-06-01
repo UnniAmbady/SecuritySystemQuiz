@@ -77,11 +77,24 @@ def AskQn():
     if not document:
         document = uploaded_file.read().decode()
 
+    #messages = [
+    #    {"role": "system", "content": f"Keep the scope of answering strictly within the context of the document: {document}."},
+    #    {"role": "system", "content": f"If a question is not within the scope of the document, respond with 'I am not sure'."},
+    #    {"role": "user", "content": f"Here's a document: {document} \n\n---\n\n {query}"}
+    #]
     messages = [
-        {"role": "system", "content": f"Keep the scope of answering strictly within the context of the document: {document}."},
-        {"role": "system", "content": f"If a question is not within the scope of the document, respond with 'I am not sure'."},
-        {"role": "user", "content": f"Here's a document: {document} \n\n---\n\n {query}"}
-    ]
+        {	"role": "system",
+            "content": (
+                "You are a question generator. Keep the scope of your questions strictly within the context "
+                "of the document below. Pick a random sub-topic or fact from the document and use *only* that "
+                "to form a question. Don’t pick the same fact twice in a row. If you cannot form a question "
+                "based on the document, respond with 'I am not sure'." )
+        },
+        {   "role": "user",
+            "content": f"Here’s the document:\n\n{document}\n\n---\n\n{query}"
+        }
+            ]
+
     
                 # Generate an answer using the OpenAI API.
     stream = client.chat.completions.create(
