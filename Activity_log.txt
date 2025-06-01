@@ -24,3 +24,9 @@ Question:      What is the purpose of access control systems in security systems
 Modal Answer:  Access control systems regulate who can enter specific areas and at what times, ensuring only authorized personnel gain access.
 Student Ans:  Access control is for controlling the admission of people to the building in an ordered manner
 ----------------------------------------
+Timestamp:    2025-06-01 12:01:35
+Question:      What is the primary purpose of access control systems in security systems?  
+
+Modal Answer:  Access control systems regulate who can enter specific areas and at what times, ensuring only authorized personnel gain access.
+Student Ans:  Control System in a SS collated data from sensors and takes needful actions in order to protect the building from intruders and thus provising better safety.
+----------------------------------------
