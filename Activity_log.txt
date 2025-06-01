@@ -36,3 +36,9 @@ Question:      What role do access control systems play in building security?
 Modal Answer:  Access control systems regulate who can enter specific areas and at what times, enhancing security by authenticating users and recording entry and exit events.
 Student Ans:  The role of the Access control system is to regulate the entry into the restricted areas in the building through Authentication such as  card, pin or password.  It will allow the authorized person and deny permission to the unauthosied,
 ----------------------------------------
+Timestamp:    2025-06-01 12:28:23
+Question:      What role do perimeter fences play in a security system?  
+
+Modal Answer:  Perimeter fences serve as physical barriers to deter intruders and define controlled spaces around a building or campus.
+Student Ans:  To provide a barrier to the entry of people, to estrablish controlled entry
+----------------------------------------
