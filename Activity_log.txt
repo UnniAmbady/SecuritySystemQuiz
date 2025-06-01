@@ -1,3 +1,16 @@
 Student answer are logged here
 ------------------------------------------------------------
 
+Timestamp:    2025-06-01 15:05:42
+Question:      What is the role of access control systems in security?  
+
+
+Modal Answer:  Access control systems regulate who can enter specific areas and at what times, using credentials like ID badges or biometrics to authenticate users.
+Student Ans:  to regulate access in areas , zones or buildings
+
+GPT Feedback:
+Right points: Access control systems regulate who can enter specific areas.
+Improve on: The answer lacks details about authentication methods and specific functions of access control systems. It should mention credentials like ID badges or biometrics.
+Score: 75%
+
+------------------------------------------------------------
