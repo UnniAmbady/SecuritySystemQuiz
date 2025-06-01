@@ -38,3 +38,15 @@ Improve on: "To detection movement" should be "To detect movement." "Especially 
 Score: 75%
 
 ------------------------------------------------------------
+Timestamp:    2025-06-01 15:56:57
+Question:      What is the primary function of access control systems in building security?  
+
+Modal Answer:  Access control systems regulate who can enter specific areas and at what times by authenticating users based on credentials.
+Student Ans:  To control access. Only authorised persons can enter. Intruder is to be stopped.
+
+GPT Feedback:
+Right points: Access control regulates who can enter. Only authorized persons can enter.
+Improve on: "To control access" is vague. Needs more detail. "Intruder is to be stopped" lacks context on how this is done.
+Score: 80%
+
+------------------------------------------------------------
