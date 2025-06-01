@@ -42,3 +42,10 @@ Question:      What role do perimeter fences play in a security system?
 Modal Answer:  Perimeter fences serve as physical barriers to deter intruders and define controlled spaces around a building or campus.
 Student Ans:  To provide a barrier to the entry of people, to estrablish controlled entry
 ----------------------------------------
+Timestamp:    2025-06-01 13:12:14
+Question:      What role do electronic detection systems play in a security system? 
+
+
+Modal Answer:  They provide continuous monitoring and rapid alerts for unauthorized access, enhancing the effectiveness of physical barriers.
+Student Ans:  electronic detection system will detect security breach electronically
+----------------------------------------
