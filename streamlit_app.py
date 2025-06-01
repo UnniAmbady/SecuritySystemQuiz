@@ -143,7 +143,8 @@ def Validate():
     )
 
     log_and_commit(sys_qn, sys_ans, st_answer, analysis_text)
-    st.success("✅ Logged to GitHub.")
+    #st.success("✅ Logged to GitHub.")
+    #Messging included inside the function
     return
 
 
