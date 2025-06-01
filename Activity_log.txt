@@ -55,3 +55,15 @@ Question:      What is the primary function of access control systems in securit
 Modal Answer:  Access control systems regulate who can enter specific areas and at what times, authenticating users based on credentials.
 Student Ans:  Access control restricts access to the building allowing the right people and stopping the unauthorized persons.
 ----------------------------------------
+Timestamp:    2025-06-01 14:00:16
+Question:      What is the primary function of a panic button in a security system?  
+
+Modal Answer:  A panic button allows staff to call for help instantly and quietly during emergencies, alerting security teams or police without notifying the threat.
+Student Ans:  To activate an ALARM, which sounds locally and send signal to remote security post
+
+GPT Feedback:
+Right points: A panic button allows staff to call for help.
+Improve on: "sounds locally and send signal" should be "sounds locally and sends a signal."
+Score: 85%
+
+------------------------------------------------------------
