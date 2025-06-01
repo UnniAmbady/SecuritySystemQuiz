@@ -80,3 +80,15 @@ Improve on: The answer does not mention detectors, communication channels, and c
 Score: 60%
 
 ------------------------------------------------------------
+Timestamp:    2025-06-01 14:54:02
+Question:      What is the primary function of electronic access control systems?  
+
+Modal Answer:  To regulate who can enter specific areas and at what times, while recording access events for auditing.
+Student Ans:  To electronically control the access to the Building
+
+GPT Feedback:
+Right points: Controls access to the building.
+Improve on: Lacks detail about timing and recording events. Should mention regulation, specific areas, and auditing.
+Score: 75%
+
+------------------------------------------------------------
