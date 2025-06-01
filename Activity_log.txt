@@ -30,3 +30,9 @@ Question:      What is the primary purpose of access control systems in security
 Modal Answer:  Access control systems regulate who can enter specific areas and at what times, ensuring only authorized personnel gain access.
 Student Ans:  Control System in a SS collated data from sensors and takes needful actions in order to protect the building from intruders and thus provising better safety.
 ----------------------------------------
+Timestamp:    2025-06-01 12:18:44
+Question:      What role do access control systems play in building security?  
+
+Modal Answer:  Access control systems regulate who can enter specific areas and at what times, enhancing security by authenticating users and recording entry and exit events.
+Student Ans:  The role of the Access control system is to regulate the entry into the restricted areas in the building through Authentication such as  card, pin or password.  It will allow the authorized person and deny permission to the unauthosied,
+----------------------------------------
