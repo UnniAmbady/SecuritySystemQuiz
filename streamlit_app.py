@@ -124,23 +124,17 @@ def Validate():
                     model='gpt-4o-mini',
                     messages=messages, 
                     temperature= 0.6,  # Added temperature parameter.
-                    stream=True,
+                    stream=False,
                 )
     st.write( f"**Question:** {sys_qn}\n " )
     st.write( f"**Modal Ans:** {sys_ans}\n " )
     st.write( f"**Your Answer:**\n {st_answer}\n " )
-    #st.write_stream(stream1)
-        # 2) Accumulate the chunks into one string
-    analysis_text = ""
-    for chunk in stream1:
-        delta = chunk.choices[0].delta.content or ""
-        st.write(delta, end="")      # your on-screen display
-        analysis_text += delta        # build up the full text
+    st.write(f"**Feedback:**\n {stream1}\n ")
+    # 2) Accumulate the chunks into one string
     
-    # 3) Now send that full analysis_text into your logger
-    log_and_commit(sys_qn, sys_ans, st_answer, analysis_text)
-    st.success("✅ Logged question, answers, and GPT analysis to GitHub.")
-
+    # 4) now you can log analysis_text
+    log_and_commit(sys_qn, sys_ans, st_answer, stream1)
+    st.success("✅ Logged to GitHub.")
 ##############################################################################30 Nov
   
     return
