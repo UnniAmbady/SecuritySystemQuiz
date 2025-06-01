@@ -101,70 +101,75 @@ def Validate():
     sys_qn = st.session_state.sys_qn
     sys_ans = st.session_state.sys_ans
     st_answer = st.session_state.st_answer
-    #to do 28 Nov 2024
-    st.write("Thanks: The results will be sent to you at a later date.")
-###########################################################################30 Nov
-    placeholder = st.empty()          # a DeltaGenerator to show the text as it arrives
-    analysis_chunks = []
-    
-    messages =  [{"role": "user",
-    "content": f"[Ignore Grammar and Spelling errors]. \
-                [Respond in bullet Form as brief as possible] \
-                 [Compare the and Comment on any Logical Errors] \
-                 [Be very lenient & dont flash too many errors. AWARD a higher grade, cap at 90%] \
-                 [Based on the logical correctness, **AWARD** a Grade  0 to 100% scale] \
-                 [Correct Answer {sys_ans}] \n\n---\n\n [Student_Ans{st_answer} ]"
-                 }]            
-        
-                # Generate an answer using the OpenAI API.
-                
 
+    st.write("Thanks: The results will be sent to you at a later date.")
+
+    messages = [{
+        "role": "user",
+        "content": f"[Ignore Grammar and Spelling errors]. "
+                   f"[Respond in short sentences as brief as possible] "
+                   f"[Compare and Comment with keyword `Right:` list the correct part of answer] "
+                   f"[Compare and Comment with keyword `Improve:` list the incorrect part of answer, with needful corrections] "
+                   f"[Be very lenient & don't flash too many errors. compute a higher grade, cap at 90%] "
+                   f"[Based on the logical correctness, **AWARD** a Grade 0 to 100% scale with keyword `Score:`] "
+                   f"\n\nCorrect Answer: {sys_ans}\n\nStudent Answer: {st_answer}"
+    }]
 
     stream1 = client.chat.completions.create(
-                    model='gpt-4o-mini',
-                    messages=messages, 
-                    temperature= 0.6,  # Added temperature parameter.
-                    stream=False,
-                )
-    st.write( f"**Question:** {sys_qn}\n " )
-    st.write( f"**Modal Ans:** {sys_ans}\n " )
-    st.write( f"**Your Answer:**\n {st_answer}\n " )
-    st.write(f"**Feedback:**\n {stream1}\n ")
-    # 2) Accumulate the chunks into one string
-    
-    # 4) now you can log analysis_text
-    log_and_commit(sys_qn, sys_ans, st_answer, stream1)
+        model='gpt-4o-mini',
+        messages=messages,
+        temperature=0.6,
+        stream=False
+    )
+
+    # Extract structured feedback
+    right_feedback, improve_feedback, score_feedback = analyse_n_feedback(stream1)
+
+    # Display clearly structured feedback
+    st.markdown(f"**Question:** {sys_qn}")
+    st.markdown(f"**Modal Answer:** {sys_ans}")
+    st.markdown(f"**Your Answer:** {st_answer}")
+
+    st.markdown(f"**Feedback:**")
+    st.markdown(f"**✔️ Right:** {right_feedback}")
+    st.markdown(f"**⚠️ Improve:** {improve_feedback}")
+    st.markdown(f"**📌 Score:** {score_feedback}")
+
+    # Log everything to GitHub
+    analysis_text = (
+        f"Right points: {right_feedback}\n"
+        f"Improve on: {improve_feedback}\n"
+        f"Score: {score_feedback}\n"
+    )
+
+    log_and_commit(sys_qn, sys_ans, st_answer, analysis_text)
     st.success("✅ Logged to GitHub.")
-##############################################################################30 Nov
-  
     return
 
 
 
 
-def log_and_commit(sys_qn: str, sys_ans: str, st_ans: str, writer):
+def log_and_commit(sys_qn: str, sys_ans: str, st_ans: str, analysis_text: str):
     """
-    sys_qn, sys_ans, st_ans = question, model’s answer, student’s answer
-    writer = a Streamlit placeholder (e.g. stream1 = st.empty())
+    Logs question, answers, and GPT feedback analysis into GitHub.
     """
-
-    # 0) Authenticate
+    # Authenticate
     github_token = st.secrets["github"]["token"]
-    gh           = Github(github_token)
-    repo         = gh.get_repo("UnniAmbady/SecuritySystemQuiz")
+    gh = Github(github_token)
+    repo = gh.get_repo("UnniAmbady/SecuritySystemQuiz")
 
-    # 1) Build timestamped entry
-    ts = datetime.now(pytz.timezone("Asia/Singapore")) \
-             .strftime("%Y-%m-%d %H:%M:%S")
+    # Prepare the log entry
+    ts = datetime.now(pytz.timezone("Asia/Singapore")).strftime("%Y-%m-%d %H:%M:%S")
     entry = (
         f"Timestamp:    {ts}\n"
         f"Question:     {sys_qn}\n"
         f"Modal Answer: {sys_ans}\n"
-        f"Student Ans:  {st_ans}\n"
-        + "-"*40 + "\n"
+        f"Student Ans:  {st_ans}\n\n"
+        f"GPT Feedback:\n{analysis_text}\n"
+        + "-" * 60 + "\n"
     )
 
-    # 2) Update or create Activity_log.txt
+    # Update/create Activity_log.txt
     log_path = "Activity_log.txt"
     try:
         existing = repo.get_contents(log_path, ref="main")
@@ -176,7 +181,7 @@ def log_and_commit(sys_qn: str, sys_ans: str, st_ans: str, writer):
             sha=existing.sha,
             branch="main"
         )
-        writer.write("✅ Activity_log.txt updated on GitHub.")
+        st.success("✅ Activity_log.txt updated on GitHub.")
     except GithubException as e:
         if e.status == 404:
             repo.create_file(
@@ -185,9 +190,11 @@ def log_and_commit(sys_qn: str, sys_ans: str, st_ans: str, writer):
                 content=entry,
                 branch="main"
             )
-            writer.write("✅ Activity_log.txt created on GitHub.")
+            st.success("✅ Activity_log.txt created on GitHub.")
         else:
-            raise   # re-raise any other errors
+            raise
+
+    #return
 
     # 3) (Optional) ensure the workflow YAML exists
     wf_path = ".github/workflows/log-processor.yml"
