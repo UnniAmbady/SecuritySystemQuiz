@@ -1,23 +1,18 @@
-# YAML File for Actions Tab on Github
-name: Process Activity Log
+    name: Process Activity Log
 
-# Trigger this workflow on any push that changes only Activity_log.txt
-on:
-  push:
-    paths:
-      - 'Activity_log.txt'
+    on:
+      push:
+        paths:
+          - 'Activity_log.txt'
 
-jobs:
-  parse:
-    runs-on: ubuntu-latest
-
-    steps:
-      # 1) Check out your repository
-      - uses: actions/checkout@v3
-
-      # 2) Print the contents of Activity_log.txt, grouped in the log output
-      - name: Display Activity Log
-        run: |
-          echo "::group::Activity Log Content"
-          cat Activity_log.txt
-          echo "::endgroup::"
+    jobs:
+      parse:
+        runs-on: ubuntu-latest
+        steps:
+          - uses: actions/checkout@v3
+          - name: Display log
+            run: |
+              echo "::group::Activity Log"
+              cat Activity_log.txt
+              echo "::endgroup::"
+    
